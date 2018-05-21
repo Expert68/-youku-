@@ -1,4 +1,4 @@
-from core import admin,user
+from youku客户端.core import admin,user
 
 
 func_dic = {

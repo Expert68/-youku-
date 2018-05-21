@@ -1,48 +1,41 @@
-from db import db_handler
+from youku服务端.orm_pool.fuckorm_pool import *
 
-class baseclass:
+class User(Modles):
+    table_name = 'user_info'
+    id = IntegerFileld('id',primary_key=True)
+    name = StringFileld('name')
+    password = StringFileld('password')
+    locked = IntegerFileld('locked',default=0)
+    is_vip = IntegerFileld('is_vip',default=0)
+    user_type = StringFileld('user_type')
 
-    @classmethod
-    def get_obj_by_name(cls,name):
-        return db_handler.select(name,cls.__name__.lower())
 
-    def save(self):
-        db_handler.save(self)
+class Movie(Modles):
+    table_name = 'movie'
+    id = IntegerFileld('id',primary_key=True)
+    name = StringFileld('name')
+    path = StringFileld('path')
+    is_free = IntegerFileld('is_free',default=1)
+    is_delete = IntegerFileld('is_delete',default=0)
+    create_time = StringFileld('create_time')
+    user_id = IntegerFileld('user_id')
+    file_md5 = StringFileld('file_md5')
+
+class Notice(Modles):
+    table_name = 'notice'
+    id = IntegerFileld('id',primary_key=True)
+    name = StringFileld('name')
+    content = StringFileld('content')
+    user_id = IntegerFileld('user_id')
+    create_time = StringFileld('create_time')
 
 
-class User(baseclass):
-    def __init__(self,name,passerword,user_type='user'):
-        self.name = name
-        self.password = passerword
-        self.user_type = user_type
-        self.is_vip = 0
-        self.dowload_list =[]
+class DownloadRecord(Modles):
+    table_name = 'download_record'
+    id = IntegerFileld('id',primary_key=True)
+    user_id = IntegerFileld('user_id')
+    movie_id = IntegerFileld('movie_id')
 
-    def upload_movie(self,movie_name,path,is_free):
-        Movie(movie_name,path,is_free,self.name)
 
-    def buy_member(self):
-        self.is_vip =1
 
-    def add_download_record(self,movie_name):
-        self.dowload_list.append(movie_name)
-        self.save()
-
-    def check_download_record(self):
-        return self.dowload_list
-
-class Movie(baseclass):
-    def __init__(self,name,path,is_free,owner):
-        self.name = name
-        self.path = path
-        self.is_free = is_free
-        self.owner = owner
-        self.is_delete =1
-
-class Notice(baseclass):
-    def __init__(self,name,content,owner,create_time):
-        self.name = name
-        self.content = content
-        self.owner = owner
-        self.create_time = create_time
 

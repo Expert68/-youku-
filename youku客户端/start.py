@@ -1,9 +1,8 @@
 import os,sys
-
+from youku客户端.core import src
 path = os.path.dirname(__file__)
+
 sys.path.append(path)
-from core import src
 
 if __name__ == '__main__':
     src.run()
-
